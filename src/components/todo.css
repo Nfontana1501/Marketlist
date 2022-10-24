@@ -3,12 +3,36 @@
     height: 10vh;
     text-align: center;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    font-size: 1.4rem;
     margin-bottom: 4%;
     color: white;
+
+}
+
+.headerTitleContainer{
+    width: 70%;
+}
+
+.headerIconContainer{
+    width: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.headerTitle{
+    font-size: 1.4rem;
     font-weight: 700;
+    margin-left: 35%;
+}
+
+.headerIcon{
+    margin-right: 5%;
+}
+
+.headerText{
+    margin-right: 5%;
 }
 
 .todoFormContainer{
@@ -122,7 +146,7 @@
 
 .btnClear{
     width: 20%;
-    margin-top: 3%;
+    margin: 3%;
     height: 30px;
     background-color: #A663AF;
     color: white;
