@@ -67,17 +67,23 @@ export default function OldLists (){
                     docs.push({...doc.data(), id: doc.id})
                     //console.log(doc.id, " => ", doc.data());
                 });
+                const elementos = []
+                docs.forEach((element) => {
+                    elementos.push(element.items)
+                })
                 console.log(docs)
+                console.log(elementos)
                 setMarketList(docs)
-                console.log(marketList)
             }
             catch(error){
                 console.log(error)
             }
         }
         getLista();
-        console.log(marketList)
+        //console.log(marketList)
     }, [])
+
+
 
     console.log(marketList)
 
@@ -86,7 +92,9 @@ export default function OldLists (){
             <div>
                 <p>niqui</p>
                 {marketList.map((item)=>
-                    <div key={item.id}>{item.title}</div>
+                    <div key={item.id}>{item.items.map((element)=>
+                        <div>{element.title}</div>
+                        )}</div>
                 )}
             </div>
         </>
