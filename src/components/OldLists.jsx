@@ -1,61 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { getDoc, collection, doc, getDocs, getFirestore } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { db } from "../firebase/firebase";
-import { async } from "@firebase/util";
+import NavBar from "./NavBar";
 
 export default function OldLists (){
 
     const [loader, setLoader] = useState(false)
+    const [desplegable, setDesplegable] = useState(-1)
     const [marketList, setMarketList] = useState([])
-
-    /*useEffect(()=>{
-        setLoader(true)
-        const getLista = async()=>{
-            try{
-                const querySnapshot = await getDocs(collection(db, "marketlist"));
-                const docs = []
-                querySnapshot.forEach((doc) => {
-                    docs.push({...doc.data(), id: doc.id})
-                });
-                setMarketList(docs)
-            }
-            catch(error){
-                console.log(error)
-            }
-        }
-        getLista();
-        console.log(marketList)
-    }, [])*/
-
-    /*useEffect(()=>{
-        const querydb = getFirestore();
-        const queryCollection = collection(querydb, "marketlist");
-        getDocs(queryCollection)
-        .then(result => 
-            setMarketList(result.doc.map(product => ({
-                id: product.id,
-                ...product.data()
-            }))))
-            console.log(marketList)
-        .catch((error)=> console.log(error))
-        .finally(()=> setLoader(false))
-    }, [marketList])*/
-
-    /*useEffect(()=>{
-        const coleccionProductos = collection(db, "marketList");
-        const referenciaDoc = doc(coleccionProductos);
-        getDoc(referenciaDoc)
-        .then((result) => {
-            setMarketList({
-                id: result.id,
-                ...result.data()
-            })
-        })
-        .catch((error)=> console.log(error))
-        .finally(()=> setLoader(false))
-    }, [marketList])*/
-
 
     useEffect(()=>{
         setLoader(true)
@@ -65,14 +18,7 @@ export default function OldLists (){
                 const docs = []
                 querySnapshot.forEach((doc) => {
                     docs.push({...doc.data(), id: doc.id})
-                    //console.log(doc.id, " => ", doc.data());
                 });
-                const elementos = []
-                docs.forEach((element) => {
-                    elementos.push(element.items)
-                })
-                console.log(docs)
-                console.log(elementos)
                 setMarketList(docs)
             }
             catch(error){
@@ -80,23 +26,40 @@ export default function OldLists (){
             }
         }
         getLista();
-        //console.log(marketList)
     }, [])
 
-
-
-    console.log(marketList)
+    function handleClick(e){
+        e.preventDefault()
+        let listener = e.target.value
+        setDesplegable(listener)
+        console.log(listener)
+    }
 
     return(
         <>
+            <NavBar />
             <div>
-                <p>niqui</p>
-                {marketList.map((item)=>
-                    <div key={item.id}>{item.items.map((element)=>
-                        <div>{element.title}</div>
-                        )}</div>
-                )}
+                <h2 className="listTitle">Que lista desea visualizar?</h2>
             </div>
+            <div className="selectContainer">
+                <select className="select" name="listas" id="list" onClick={handleClick}>
+                    <option value={-1}>Seleccione una opción: </option>
+                    {marketList.map((item, i)=>
+                            <option key={item.id} value={i}>
+                                {item.title}
+                            </option>
+                        )}
+                </select>
+            </div>
+            <div className="itemsContainer">
+                    {desplegable > -1 && (
+                        marketList[desplegable].items.map((item,i) => 
+                        <div className="item" key={item.id} value="">{item.title}</div>
+                        )
+                    )
+                    }
+            </div>
+
         </>
     )
 }

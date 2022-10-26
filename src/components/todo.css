@@ -24,7 +24,7 @@
 .headerTitle{
     font-size: 1.4rem;
     font-weight: 700;
-    margin-left: 35%;
+    margin-left: 45%;
 }
 
 .headerIcon{
@@ -33,6 +33,22 @@
 
 .headerText{
     margin-right: 5%;
+}
+
+.titleContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1,4rem;
+    padding: 0.5%;
+    width: 100%;
+    border-bottom: 1px solid;
+    margin-top: 3%;
+}
+
+.title{
+    font-size: 1.5rem;
+    font-weight: 500;
 }
 
 .todoFormContainer{
@@ -155,4 +171,49 @@
 
 .btnClear:hover{
     opacity: 0.8;
+}
+
+.links{
+    text-decoration: none;
+    color: inherit;
+}
+
+.linkIcon{
+    width: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.listTitle{
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+.selectContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.select{
+    width: 50%;
+    height: 30px;
+    margin-bottom: 3%;
+}
+
+.itemsContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.item{
+    width: 50%;
+    height: 20px;
+    margin-bottom: 1%;
 }

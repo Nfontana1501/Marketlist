@@ -4,17 +4,17 @@ import Todo from "./Todo";
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import "./todo.css";
 import { db } from "../firebase/firebase";
-import CartWidget from "./CartWidget";
-import { useNavigate } from 'react-router-dom';
+import NavBar from "./NavBar";
 
 
 export default function TodoList(){
 
     const [todo, setTodo] = useState("")
+    const [title, setTitle] = useState("")
+    const [finalTitle, setfinalTitle] = useState("")
     const [list, setList] = useState ([])
     const [orderId, setOrderId]= useState("")
     const [loader, setLoader] = useState(false)
-    const navegar = useNavigate();
 
     function handleSubmit (e){
         e.preventDefault();
@@ -26,10 +26,23 @@ export default function TodoList(){
         setTodo("")
     }
 
+    function handleSubmitTitle (e){
+        e.preventDefault();
+        console.log(title)
+        setfinalTitle(title)
+        setTitle("")
+    }
+
     function handleChange(e){
         e.preventDefault();
         let listener = e.target.value
         setTodo(listener)
+    }
+
+    function handleChangeTitle(e){
+        e.preventDefault();
+        let listener = e.target.value
+        setTitle(listener)
     }
 
     function handleUpdate(id, value){
@@ -46,17 +59,20 @@ export default function TodoList(){
 
     function handleClear(){
         setList([]);
+        setfinalTitle("");
     }
 
     const handleSend = (e) =>{
         e.preventDefault()
         const marketList = collection(db,"marketlist")
         addDoc(marketList, {
+        title: finalTitle,
         items: list,
         date: serverTimestamp()
         })
         .then((res)=>{
             setOrderId(res.id)
+            setTitle("")
             handleClear();
         })
         .catch((error)=> console.log(error))
@@ -65,16 +81,12 @@ export default function TodoList(){
 
     return (
         <>
-            <div className="header">
-                <div className="headerTitleContainer">
-                    <p className="headerTitle">Lista de pendientes</p>
-                </div>
-                <div className="headerIconContainer">
-                    <p className="headerText">Mis listas</p>
-                    <button onClick={()=>{navegar("/OldLists")}}>
-                    <CartWidget/>
-                    </button>
-                </div>
+            <NavBar />
+            <div className="todoFormContainer">
+                <form className="todoForm" onSubmit={handleSubmitTitle}>
+                    <input type="text" placeholder="Inserte aquí el título" value={title} className="todoInputText" onChange={handleChangeTitle}/>
+                    <input type="submit" className="todoInputSubmit" value="Setear"/>
+                </form>
             </div>
             <div className="todoFormContainer">
                 <form className="todoForm" onSubmit={handleSubmit}>
@@ -83,6 +95,9 @@ export default function TodoList(){
                 </form>
             </div>
             <div className="todoListContainer">
+                <div className="titleContainer">
+                    <span className="title">{finalTitle}</span>
+                </div>
                 {list.map((item)=>
                     <Todo key={item.id} item={item} onUpdate={handleUpdate} onDelete={handleDelete} />
                 )}

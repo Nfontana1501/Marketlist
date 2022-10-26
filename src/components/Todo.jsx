@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import "./todo.css";
 
-export default function Todo({item, onUpdate, onDelete}){
+export default function Todo({item, title, onUpdate, onDelete}){
 
     const [isEdit, setIsEdit] = useState(false);
     const [newValue, setNewValue] = useState(item.title)
@@ -34,7 +34,9 @@ export default function Todo({item, onUpdate, onDelete}){
                         <button className="editBtn" onClick={handleClick}>Actualizar</button>
                     </form>
                 </div>
-                : <div className="todoFormContainer">
+                :   
+                <>                 
+                <div className="todoFormContainer">
                     <div className="todo">
                         <span className="">{item.title}</span>
                     </div>
@@ -43,6 +45,7 @@ export default function Todo({item, onUpdate, onDelete}){
                         <button className="btnDelete" onClick={() => onDelete(item.id)}>Borrar</button>
                     </div>
                 </div>
+                </> 
                 }
             </div>
         </>
