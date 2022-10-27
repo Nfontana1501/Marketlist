@@ -212,8 +212,66 @@
     justify-content: center;
 }
 
-.item{
+.itemButtonContainer{
     width: 50%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.item{
+    width: 25%;
     height: 20px;
     margin-bottom: 1%;
+}
+
+.id{
+    display: none;
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: center;
+    width: 50%;
+}
+
+.buttonContainer2{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.button{
+    width: 75%;
+    margin: 1%;
+}
+
+.desplegable{
+    display:flex;
+    justify-content: space-between;
+}
+
+.btnDeleteSelect{
+    width: 30%;
+    height: 40px;
+    margin-left: 35%;
+    margin-top: 2.5%;
+    background-color: #A663AF;
+    color: white;
+    border: none;
+}
+
+.btnDeleteList{
+    width: 30%;
+    height: 40px;
+    margin-left: 35%;
+    margin-top: 2.5%;
+    background-color: #D61D58;
+    color: white;
+    border: none;
+}
+
+.btnDeleteList:hover{
+    opacity: 0.8;
 }
