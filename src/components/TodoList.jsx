@@ -5,13 +5,16 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import "./todo.css";
 import { db } from "../firebase/firebase";
 import NavBar from "./NavBar";
+import { Watch } from  'react-loader-spinner';
 
 
 export default function TodoList(){
 
     const [todo, setTodo] = useState("")
     const [title, setTitle] = useState("")
+    const [name, setName] = useState("")
     const [finalTitle, setfinalTitle] = useState("")
+    const [finalName, setfinalName] = useState("")
     const [list, setList] = useState ([])
     const [orderId, setOrderId]= useState("")
     const [loader, setLoader] = useState(false)
@@ -27,10 +30,15 @@ export default function TodoList(){
     }
 
     function handleSubmitTitle (e){
-        e.preventDefault();
-        console.log(title)
+        e.preventDefault()
         setfinalTitle(title)
         setTitle("")
+    }
+
+    function handleSubmitName (e){
+        e.preventDefault()
+        setfinalName(name)
+        setName("")
     }
 
     function handleChange(e){
@@ -43,6 +51,12 @@ export default function TodoList(){
         e.preventDefault();
         let listener = e.target.value
         setTitle(listener)
+    }
+
+    function handleChangeName(e){
+        e.preventDefault();
+        let listener = e.target.value
+        setName(listener)
     }
 
     function handleUpdate(id, value){
@@ -60,12 +74,15 @@ export default function TodoList(){
     function handleClear(){
         setList([]);
         setfinalTitle("");
+        setfinalName("");
     }
 
     const handleSend = (e) =>{
         e.preventDefault()
+        setLoader(true)
         const marketList = collection(db,"marketlist")
         addDoc(marketList, {
+        name: finalName,
         title: finalTitle,
         items: list,
         date: serverTimestamp()
@@ -82,6 +99,23 @@ export default function TodoList(){
     return (
         <>
             <NavBar />
+            {loader ?
+            <div style={{display: "flex", justifyContent: "center", marginTop: "2%"}}>
+            <Watch height="80" width="80" radius="48"
+            color="#424242"
+            ariaLabel="watch-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+            />
+            </div> :
+            <>
+            <div className="todoFormContainer">
+                <form className="todoForm" onSubmit={handleSubmitName}>
+                    <input type="text" placeholder="Inserte aquí su nombre" value={name} className="todoInputText" onChange={handleChangeName}/>
+                    <input type="submit" className="todoInputSubmit" value="Setear"/>
+                </form>
+            </div>
             <div className="todoFormContainer">
                 <form className="todoForm" onSubmit={handleSubmitTitle}>
                     <input type="text" placeholder="Inserte aquí el título" value={title} className="todoInputText" onChange={handleChangeTitle}/>
@@ -96,7 +130,7 @@ export default function TodoList(){
             </div>
             <div className="todoListContainer">
                 <div className="titleContainer">
-                    <span className="title">{finalTitle}</span>
+                    <span className="title">Lista de {finalTitle} de {finalName} </span>
                 </div>
                 {list.map((item)=>
                     <Todo key={item.id} item={item} onUpdate={handleUpdate} onDelete={handleDelete} />
@@ -106,6 +140,8 @@ export default function TodoList(){
                 <button className="btnClear" onClick={handleSend}>Enviar</button>
                 <button className="btnClear" onClick={handleClear}>Limpiar</button>
             </div>
+            </>
+            }
         </>
         
     )

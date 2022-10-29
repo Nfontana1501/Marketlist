@@ -1,13 +1,12 @@
 import React from "react";
-import OldItem from "./OldItem";
+import { Watch } from  'react-loader-spinner';
 
-export default function DeleteCollection({item, a}){
+export default function DeleteCollection({item}){
 
     return(
         <>
-            <option onChange={()=>a(item.id)} className="desplegable" key={item.id} value={item.id}>
-                {item.title}
-                {item.id}
+            <option className="desplegable" key={item.id} value={item.id}>
+                lista de {item.title} de {item.name}
             </option>
         </>
     )

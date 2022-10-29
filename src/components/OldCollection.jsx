@@ -1,13 +1,12 @@
 import React from "react";
 import OldItem from "./OldItem";
 
-export default function OldCollection({item, i, a}){
+export default function OldCollection({item, i}){
 
     return(
         <>
-            <option onChange={()=>a(item.id)} className="desplegable" key={item.id+i} value={i}>
-                {item.title}
-                {item.id}
+            <option className="desplegable" key={item.id+i} value={i}>
+                lista de {item.title} de {item.name}
             </option>
         </>
     )

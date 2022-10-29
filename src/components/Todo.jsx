@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import "./todo.css";
 
-export default function Todo({item, title, onUpdate, onDelete}){
+export default function Todo({item, onUpdate, onDelete}){
 
     const [isEdit, setIsEdit] = useState(false);
     const [newValue, setNewValue] = useState(item.title)

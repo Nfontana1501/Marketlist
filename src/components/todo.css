@@ -232,7 +232,7 @@
 
 .buttonContainer{
     display: flex;
-    justify-content: center;
+    justify-content: end;
     width: 50%;
 }
 

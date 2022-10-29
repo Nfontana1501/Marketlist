@@ -13,7 +13,7 @@ export default function OldLists (){
     const [desplegable, setDesplegable] = useState(-1)
     const [marketList, setMarketList] = useState([])
     const [eliminar, setEliminar] = useState(false)
-    const [idd, setIdd] = useState("")
+    const [listId, setListId] = useState("")
 
     useEffect(()=>{
         setLoader(true)
@@ -29,6 +29,9 @@ export default function OldLists (){
             catch(error){
                 console.log(error)
             }
+            finally{
+                setLoader(false)
+            }
         }
         getLista();
     }, [])
@@ -37,30 +40,14 @@ export default function OldLists (){
         e.preventDefault()
         let listener = e.target.value
         setDesplegable(listener)
-        setIdd(listener)
-        console.log(listener)
-        console.log(idd)
-    }
-
-    async function handleDelete(idElement){
-        console.log(idElement)
-        //let item = marketList.find((item) => item.id === id);
-        //await deleteDoc(doc(db, "marketlist", id));
-        const newMarketList = marketList[desplegable].items.filter((item) => item.id !== idElement)
-        console.log(newMarketList)
-    }
-
-    async function a(idCollection){
-        console.log(idCollection)
-        const id = await deleteDoc(doc(db, "marketlist", idCollection));
-        setIdd(id)
+        setListId(listener)
     }
 
     async function handleEliminar(){
-        console.log(idd)
-        //esto funciono monardo, ahora ponelo lindo, te lo pido por dalma y por giannina
-        await deleteDoc(doc(db, "marketlist", idd));
+        setLoader(true)
+        await deleteDoc(doc(db, "marketlist", listId));
         setEliminar(false)
+        setLoader(false)
     }
 
     return(
@@ -76,24 +63,13 @@ export default function OldLists (){
                         <option value={-1}>Seleccione una opción: </option>
                         {marketList.map((item, i)=>
                             <OldCollection key={item.id} i={i} item={item} />
-                            //<option key={item.id+i} value={i}>
-                            //  {item.title}
-                            //</option>
                         )}
                     </select>
                 </div>
                 <div className="itemsContainer">
                     {desplegable > -1 && (
-                        marketList[desplegable].items.map((element,i) => 
-                        <OldItem key={element.id} element={element} onDelete={handleDelete}/>
-                        // <div className="itemButtonContainer">
-                        //     <div className="item" key={element.id} value="">{element.title}</div> 
-                        //     <div className="id" key={element.id} value="">{element.id}</div>
-                        //     <div className="buttonContainer">
-                        //         <button className="button">Comprado</button>
-                        //         <button className="button" onClick={handleDelete(element.id)}>Eliminar</button>
-                        //     </div>
-                        // </div>
+                        marketList[desplegable].items.map((element) => 
+                        <OldItem key={element.id} element={element} />
                         )
                     )
                     }
@@ -110,10 +86,7 @@ export default function OldLists (){
                     <select className="select" name="listas" id="list" onClick={handleClick}>
                         <option value={-1}>Seleccione una opción: </option>
                         {marketList.map((item, i)=>
-                            <DeleteCollection key={item.id} i={i} item={item} onDelete={a}/>
-                            //<option key={item.id+i} value={i}>
-                            //  {item.title}
-                            //</option>
+                            <DeleteCollection key={item.id} i={i} item={item} />
                         )}
                     </select>
                 </div>

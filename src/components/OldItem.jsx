@@ -1,15 +1,18 @@
+import { Checkbox } from "@mui/material";
 import React from "react";
 
-export default function OldItem({element, onDelete}){
+export default function OldItem({element}){
+
+    function handleClick(e){
+        let listener = e.target.value
+        console.log(listener)
+    }
 
     return(
         <div className="itemButtonContainer">
             <div className="item" key={element.id} value="">{element.title}</div> 
             <div className="buttonContainer">
-                <div className="buttonContainer2" key={element.id} value="">
-                    <button className="button">Comprado</button>
-                    <button className="button" onClick={()=>onDelete(element.id)}>Eliminar</button>
-                </div>
+            <Checkbox value={element.id} onClick={handleClick} />
             </div>
         </div>
     )
